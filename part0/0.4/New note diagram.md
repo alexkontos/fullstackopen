@@ -1,5 +1,5 @@
 ```mermaid
-sequenceDiagram
+sequenceDiagram title New note diagram
 note over browser: user submits note form<br>and sends the note content<br>as a payload in POST
 browser->>server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note<br>(note: my new note)
 note over server: server stores new note

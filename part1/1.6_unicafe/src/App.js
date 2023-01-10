@@ -7,11 +7,19 @@ const Button = ({name, onClick}) => <button onClick={onClick}>{name}</button>
 const Stat = ({name, amount}) => <div>{name} {amount}</div>
 
 const Statistics = ({goodAmount, neutralAmount, badAmount}) => {
+
+  const all = goodAmount + neutralAmount + badAmount
+  const average = (goodAmount - badAmount)/(goodAmount + neutralAmount + badAmount)
+  const positive = (goodAmount / all) * 100 + '%'
+
   return (
     <div>
       <Stat name="good" amount={goodAmount} />
       <Stat name="neutral" amount={neutralAmount} />
       <Stat name="bad" amount={badAmount} />
+      <Stat name="all" amount={goodAmount + neutralAmount + badAmount} />
+      <Stat name="average" amount={average} />
+      <Stat name="positive" amount={positive} />
     </div>
   )
 }
@@ -29,7 +37,7 @@ const App = () => {
       <Button name="neutral" onClick={() => setNeutral(neutral+1)} />
       <Button name="bad" onClick={() => setBad(bad+1)} />
       <Header name="statistics" />
-      <Statistics goodAmount={good} neutralAmount={neutral} badAmount={bad} />
+      <Statistics goodAmount={good} neutralAmount={neutral} badAmount={bad}/>
     </>
   )
 }

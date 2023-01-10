@@ -12,16 +12,26 @@ const Statistics = ({goodAmount, neutralAmount, badAmount}) => {
   const average = (goodAmount - badAmount)/(goodAmount + neutralAmount + badAmount)
   const positive = (goodAmount / all) * 100 + '%'
 
-  return (
-    <div>
-      <Stat name="good" amount={goodAmount} />
-      <Stat name="neutral" amount={neutralAmount} />
-      <Stat name="bad" amount={badAmount} />
-      <Stat name="all" amount={goodAmount + neutralAmount + badAmount} />
-      <Stat name="average" amount={average} />
-      <Stat name="positive" amount={positive} />
-    </div>
-  )
+  if (all) {
+    return (
+      <div>
+        <Stat name="good" amount={goodAmount} />
+        <Stat name="neutral" amount={neutralAmount} />
+        <Stat name="bad" amount={badAmount} />
+        <Stat name="all" amount={goodAmount + neutralAmount + badAmount} />
+        <Stat name="average" amount={average} />
+        <Stat name="positive" amount={positive} />
+      </div>
+    )
+  } else {
+    return (
+      <div>
+        No feedback given
+      </div>
+    )
+  }
+
+  
 }
 
 const App = () => {

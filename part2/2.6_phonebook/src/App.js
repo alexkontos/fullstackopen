@@ -1,3 +1,7 @@
+import PersonsList from './components/PersonsList';
+import PersonForm from './components/PersonForm';
+import Filter from './components/Filter';
+import Header from './components/Header';
 import { useState } from 'react'
 
 const App = () => {
@@ -12,9 +16,9 @@ const App = () => {
   const [filterValue, setFilterValue] = useState('')
   const [isFiltered, setIsFiltered] = useState(false)
 
-  const personsToShow = isFiltered 
-  ? persons.filter(person => person.name.toUpperCase().includes(filterValue.toUpperCase())) 
-  : persons
+  const personsToShow = isFiltered
+    ? persons.filter(person => person.name.toUpperCase().includes(filterValue.toUpperCase()))
+    : persons
 
   const handleNameInputChange = e => {
     setNewName(e.target.value);
@@ -38,7 +42,7 @@ const App = () => {
   const handleFormSubmit = e => {
     e.preventDefault();
     if (!persons.some(person => person.name === newName)) {
-      setPersons([...persons, {name: newName, number: newNumber, id: persons.length+1}])
+      setPersons([...persons, { name: newName, number: newNumber, id: persons.length + 1 }])
     } else {
       alert(`${newName} is already in the phonebook`)
     }
@@ -47,21 +51,10 @@ const App = () => {
 
   return (
     <div>
-      <h2>Phonebook</h2>
-      <div>
-        filter shown with: <input value={filterValue} onChange={handleFilterInputChange} />
-      </div>
-      <form>
-        <div>
-          name: <input value={newName} onChange={handleNameInputChange} />
-          number: <input value={newNumber} onChange={handleNumberInputChange} />
-        </div>
-        <div>
-          <button onClick={handleFormSubmit} type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-      {personsToShow.map(person => <p key={person.id}>{person.name}: {person.number}</p>)}
+      <Header text="Phonebook" />
+      <Filter value={filterValue} onChange={handleFilterInputChange} />
+      <PersonForm newName={newName} handleNameInputChange={handleNameInputChange} newNumber={newNumber} handleNumberInputChange={handleNumberInputChange} handleFormSubmit={handleFormSubmit} />
+      <PersonsList personsToShow={personsToShow} />
     </div>
   )
 }

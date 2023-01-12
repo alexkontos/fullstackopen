@@ -1,7 +1,9 @@
+import Input from "./Input";
+
 const Filter = ({ value, onChange }) => {
   return (
     <div>
-      filter shown with: <input value={value} onChange={onChange} />
+      filter shown with: <Input value={value} onChange={onChange} />
     </div>);
 }
 

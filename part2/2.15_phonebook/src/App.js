@@ -60,7 +60,14 @@ const App = () => {
           setPersons([...persons, response])
         })
     } else {
-      alert(`${newName} is already in the phonebook`)
+      if (window.confirm(`${newName} is already in the phonebook, replace number?`)) {
+        const personToReplace = persons.find(person => person.name === newName);
+        const updatedPerson = {
+          ...personToReplace,
+          number: newNumber
+        }
+        personService.update(personToReplace.id, updatedPerson)
+      }
     }
   }
 

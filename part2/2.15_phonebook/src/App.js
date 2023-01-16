@@ -42,6 +42,12 @@ const App = () => {
     }
   }
 
+  const handleDelete = (name, id) => {
+    if (window.confirm(`Are you sure you want to delete ${name}?`)) {
+      personService.remove(id)
+    }
+  }
+
   const handleFormSubmit = e => {
     e.preventDefault();
     if (!persons.some(person => person.name === newName)) {
@@ -64,7 +70,7 @@ const App = () => {
       <Header text="Phonebook" />
       <Filter value={filterValue} onChange={handleFilterInputChange} />
       <PersonForm newName={newName} handleNameInputChange={handleNameInputChange} newNumber={newNumber} handleNumberInputChange={handleNumberInputChange} handleFormSubmit={handleFormSubmit} />
-      <PersonsList personsToShow={personsToShow} />
+      <PersonsList personsToShow={personsToShow} handleDelete={handleDelete} />
     </div>
   )
 }

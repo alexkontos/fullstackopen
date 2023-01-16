@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 
 const App = () => {
+  const personsUrl = 'http://localhost:3001/Persons';
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
@@ -13,7 +14,7 @@ const App = () => {
   const [isFiltered, setIsFiltered] = useState(false)
 
   useEffect(() => {
-    axios.get('http://localhost:3001/Persons')
+    axios.get(personsUrl)
       .then(response => {
         setPersons(response.data)
       })
@@ -45,7 +46,13 @@ const App = () => {
   const handleFormSubmit = e => {
     e.preventDefault();
     if (!persons.some(person => person.name === newName)) {
-      setPersons([...persons, { name: newName, number: newNumber, id: persons.length + 1 }])
+      const newPerson = {
+        name: newName,
+        number: newNumber
+      }
+      axios.post(personsUrl, newPerson).then((response) => {
+        setPersons([...persons, response.data])
+      })
     } else {
       alert(`${newName} is already in the phonebook`)
     }

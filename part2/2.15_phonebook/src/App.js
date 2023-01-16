@@ -3,10 +3,9 @@ import PersonForm from './components/PersonForm';
 import Filter from './components/Filter';
 import Header from './components/Header';
 import { useEffect, useState } from 'react'
-import axios from 'axios'
+import personService from './services/persons'
 
 const App = () => {
-  const personsUrl = 'http://localhost:3001/Persons';
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
@@ -14,9 +13,9 @@ const App = () => {
   const [isFiltered, setIsFiltered] = useState(false)
 
   useEffect(() => {
-    axios.get(personsUrl)
+    personService.getAll()
       .then(response => {
-        setPersons(response.data)
+        setPersons(response)
       })
   }, []);
 
@@ -50,9 +49,10 @@ const App = () => {
         name: newName,
         number: newNumber
       }
-      axios.post(personsUrl, newPerson).then((response) => {
-        setPersons([...persons, response.data])
-      })
+      personService.create(newPerson)
+        .then((response) => {
+          setPersons([...persons, response])
+        })
     } else {
       alert(`${newName} is already in the phonebook`)
     }

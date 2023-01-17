@@ -2,6 +2,7 @@ import PersonsList from './components/PersonsList';
 import PersonForm from './components/PersonForm';
 import Filter from './components/Filter';
 import Header from './components/Header';
+import Notification from './components/Notification'
 import { useEffect, useState } from 'react'
 import personService from './services/persons'
 
@@ -11,7 +12,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [filterValue, setFilterValue] = useState('')
   const [isFiltered, setIsFiltered] = useState(false)
-  const [errorMessage, setErrorMessage] = useState('Some error happened.')
+  const [notificationMsg, setNotificationMsg] = useState({ text: null, isError: false })
 
   useEffect(() => {
     personService.getAll()
@@ -59,6 +60,8 @@ const App = () => {
       personService.create(newPerson)
         .then((response) => {
           setPersons([...persons, response])
+          setNotificationMsg({ text: `${response.name} successfully created`, isError: false })
+          setTimeout(() => setNotificationMsg({ text: '', isError: false }), 5000)
         })
     } else {
       if (window.confirm(`${newName} is already in the phonebook, replace number?`)) {
@@ -68,6 +71,14 @@ const App = () => {
           number: newNumber
         }
         personService.update(personToReplace.id, updatedPerson)
+          .then(response => {
+            setNotificationMsg({ text: `${updatedPerson.name} successfully updated`, isError: false })
+            setTimeout(() => setNotificationMsg({ text: '', isError: false }), 5000)
+          })
+          .catch(errorMsg => {
+            setNotificationMsg({ text: `${updatedPerson.name} has already been removed from the server`, isError: true })
+            setTimeout(() => setNotificationMsg({ text: '', isError: false }), 5000)
+          })
       }
     }
   }
@@ -75,6 +86,7 @@ const App = () => {
 
   return (
     <div>
+      <Notification text={notificationMsg.text} isError={notificationMsg.isError} />
       <Header text="Phonebook" />
       <Filter value={filterValue} onChange={handleFilterInputChange} />
       <PersonForm newName={newName} handleNameInputChange={handleNameInputChange} newNumber={newNumber} handleNumberInputChange={handleNumberInputChange} handleFormSubmit={handleFormSubmit} />

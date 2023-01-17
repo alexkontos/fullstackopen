@@ -11,6 +11,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [filterValue, setFilterValue] = useState('')
   const [isFiltered, setIsFiltered] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('Some error happened.')
 
   useEffect(() => {
     personService.getAll()

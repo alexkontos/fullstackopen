@@ -1,0 +1,15 @@
+.notification {
+    padding: 1em;
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 0.5em;
+}
+
+.success {
+    background-color: yellowgreen;
+    color: darkslategray
+}
+
+.error {
+    background-color: salmon;
+    color: brown;
+}

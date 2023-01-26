@@ -58,10 +58,15 @@ const App = () => {
         number: newNumber
       }
       personService.create(newPerson)
-        .then((response) => {
-          console.log(response)
-          setPersons([...persons, response])
-          setNotificationMsg({ text: `${response.name} successfully created`, isError: false })
+        .then((createdPerson) => {
+          console.log(createdPerson)
+          setPersons([...persons, createdPerson])
+          setNotificationMsg({ text: `${createdPerson.name} successfully created`, isError: false })
+          setTimeout(() => setNotificationMsg({ text: '', isError: false }), 5000)
+        })
+        .catch(error => {
+          console.log(error);
+          setNotificationMsg({ text: error.response.data.error, isError: true })
           setTimeout(() => setNotificationMsg({ text: '', isError: false }), 5000)
         })
     } else {
